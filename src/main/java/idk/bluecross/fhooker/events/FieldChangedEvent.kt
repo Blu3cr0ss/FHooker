@@ -35,7 +35,7 @@ object FieldChangedEvent {
         spamTextField.isDisable = x
     }
 
-    val github = ""
+    val github = "https://github.com/Bluecross-anarchy/FHooker"
     val discord = "https://discord.gg/frzjeHxKeX"
     fun setText() {
         var result = ""
