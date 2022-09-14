@@ -33,6 +33,7 @@ object FieldChangedEvent {
         hookField.isDisable = x
         spamWithGitButton.isDisable = x
         spamTextField.isDisable = x
+        spamWithDiscordButton.isDisable = x
     }
 
     val github = "https://github.com/Bluecross-anarchy/FHooker"

