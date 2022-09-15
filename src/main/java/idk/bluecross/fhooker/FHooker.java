@@ -6,6 +6,7 @@ import idk.bluecross.fhooker.logic.MainLogicKt;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 import java.io.IOException;
@@ -15,7 +16,8 @@ public class FHooker extends Application {
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(FHooker.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(fxmlLoader.load(), 1280, 720);
-        stage.setTitle("FHOOKER BY BLUECROSS");
+        stage.setTitle("FHooker by Bluecross");
+        stage.getIcons().add(new Image("bbra.png"));
         stage.setScene(scene);
         stage.setResizable(false);
         stage.show();

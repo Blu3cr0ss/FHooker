@@ -1,18 +1,26 @@
 package idk.bluecross.fhooker.logic;
 
+import idk.bluecross.fhooker.Globals;
+import idk.bluecross.fhooker.util.DocumentKt;
+import idk.bluecross.fhooker.util.LoggerKt;
+import idk.bluecross.fhooker.util.ProxyUtilKt;
+
 import javax.net.ssl.HttpsURLConnection;
 import java.awt.Color;
-import java.io.File;
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
-import java.net.MalformedURLException;
-import java.net.URL;
+import java.net.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import static idk.bluecross.fhooker.Globals.speedIsRestricted;
 
 // This class is copy-pasted cuz im lazy <3
 
@@ -47,6 +55,7 @@ public class DiscordApi {
     public void addEmbed(EmbedObject embed) {
         this.embeds.add(embed);
     }
+
     public void clearEmbeds() {
         this.embeds.clear();
     }
@@ -138,9 +147,25 @@ public class DiscordApi {
         }
 
         URL url = new URL(this.url);
-        HttpsURLConnection connection = (HttpsURLConnection) url.openConnection();
+
+        HttpsURLConnection connection;
+
+        if (Globals.useProxy) {
+            Proxy webProxy = ProxyUtilKt.getCurrent();
+            assert webProxy != null;
+            System.setProperty("http.proxyHost",
+                    webProxy.address().toString().replace(":80", "").replace("http://", "").replace("/", "")
+            );
+            System.setProperty("http.proxyPort", "80");
+
+            connection = (HttpsURLConnection) url.openConnection();
+            ProxyUtilKt.checkIp();
+        } else {
+            connection = (HttpsURLConnection) url.openConnection();
+        }
+
         connection.addRequestProperty("Content-Type", "application/json");
-        connection.addRequestProperty("User-Agent", "Java-DiscordWebhook-BY-Gelox_");
+//        connection.addRequestProperty("User-Agent", "BBra-inc-on-top");
         connection.setDoOutput(true);
         connection.setRequestMethod("POST");
 
@@ -148,13 +173,27 @@ public class DiscordApi {
         stream.write(json.toString().getBytes());
         stream.flush();
         stream.close();
-        try{
+        if (Globals.useProxy) System.clearProperty("http.proxyHost");
+        try {
             connection.getInputStream().close();
             connection.disconnect();
-        }catch (Exception e){
+            allOk ++;
+            if (speedIsRestricted && allOk >= 3){
+                speedIsRestricted = false;
+            }
+        } catch (Exception e) {
+            antistuck++;
+            if (antistuck == 3 && !speedIsRestricted) {
+                speedIsRestricted = true;
+                antistuck = 0;
+            }
+            allOk = 0;
             e.printStackTrace();
         }
     }
+
+    private int antistuck = 0;
+    private int allOk = 0;
 
     public static class EmbedObject {
         private String title;

@@ -9,4 +9,6 @@ public class Globals {
     public static boolean attackingRn = false;
     public static int spamDelay = 1000;
     public static String spamText;
+    public static boolean useProxy = false;
+    public static boolean speedIsRestricted = false;
 }
