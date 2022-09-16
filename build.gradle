@@ -52,7 +52,7 @@ dependencies {          // idk is we need all this dependencies but it was autog
     implementation('com.github.almasb:fxgl:11.17') {
         exclude(group: 'org.openjfx')
     }
-
+//    implementation 'org.apache.spark:spark-core_2.13:3.3.0'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }

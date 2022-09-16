@@ -19,6 +19,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import static idk.bluecross.fhooker.Globals.speedIsRestricted;
 
@@ -148,20 +149,12 @@ public class DiscordApi {
 
         URL url = new URL(this.url);
 
-        HttpsURLConnection connection;
+        HttpURLConnection connection;
 
         if (Globals.useProxy) {
-            Proxy webProxy = ProxyUtilKt.getCurrent();
-            assert webProxy != null;
-            System.setProperty("http.proxyHost",
-                    webProxy.address().toString().replace(":80", "").replace("http://", "").replace("/", "")
-            );
-            System.setProperty("http.proxyPort", "80");
-
-            connection = (HttpsURLConnection) url.openConnection();
-            ProxyUtilKt.checkIp();
+            connection = (HttpURLConnection) url.openConnection();
         } else {
-            connection = (HttpsURLConnection) url.openConnection();
+            connection = (HttpURLConnection) url.openConnection();
         }
 
         connection.addRequestProperty("Content-Type", "application/json");
@@ -173,12 +166,14 @@ public class DiscordApi {
         stream.write(json.toString().getBytes());
         stream.flush();
         stream.close();
-        if (Globals.useProxy) System.clearProperty("http.proxyHost");
+        if (allOk >= 2) {
+            antistuck = 0;
+        }
         try {
             connection.getInputStream().close();
             connection.disconnect();
-            allOk ++;
-            if (speedIsRestricted && allOk >= 3){
+            allOk++;
+            if (allOk >= 3) {
                 speedIsRestricted = false;
             }
         } catch (Exception e) {
@@ -190,6 +185,7 @@ public class DiscordApi {
             allOk = 0;
             e.printStackTrace();
         }
+        LoggerKt.log(json.toString());
     }
 
     private int antistuck = 0;

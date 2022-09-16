@@ -11,8 +11,9 @@ var timerThr: Thread? = null // don't understand kotlin coroutines so I'll use t
 
 fun startAttack() {
     Globals.attackingRn = true;
-    var discord = DiscordApi(Globals.webhook)
-    var logo = object {}.javaClass.getResource("bbra.jpg")
+    val discord = DiscordApi(Globals.webhook)
+//    val discord = DiscordApi.INSTANCE
+
     timerThr = thread(start = true) {
         try {
             val discord = discord
@@ -43,6 +44,7 @@ fun startAttack() {
 
 fun stopAttack() {
     Globals.attackingRn = false;
+
     timerThr?.interrupt()
     timerThr = null
 }

@@ -1,5 +1,6 @@
 package idk.bluecross.fhooker.util
 
+import java.net.HttpURLConnection
 import java.net.InetSocketAddress
 import java.net.Proxy
 import java.net.URL
@@ -72,7 +73,7 @@ private var proxyList = arrayListOf<String>(
     "http://172.67.8.19:80"
 )
 
-fun getCurrent(): Proxy? {
+fun getCurrent(): Proxy {
     var isValid = false;
     for (i in 0 until proxyList.size) {
         val request = URL(
@@ -102,8 +103,4 @@ fun getCurrent(): Proxy? {
     } else {
         Proxy.NO_PROXY
     }
-}
-
-fun checkIp() {
-    log(URL("https://api.ipify.org/").readText().removeSuffix("\n"))
 }

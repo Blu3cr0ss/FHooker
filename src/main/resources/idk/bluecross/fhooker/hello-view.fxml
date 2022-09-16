@@ -50,11 +50,11 @@
          </font>
       </CheckBox>
       <Text fx:id="errorText" fill="RED" layoutX="845.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" style="visibility: false;" text="Fhooker just got some error :(" wrappingWidth="382.0" />
-      <CheckBox fx:id="useProxyButton" layoutX="75.0" layoutY="287.0" mnemonicParsing="false" text="Use proxy">
-         <font>
-            <Font name="Fira Sans Heavy Italic" size="18.0" />
-         </font>
-      </CheckBox>
+<!--      <CheckBox fx:id="useProxyButton" layoutX="75.0" layoutY="287.0" mnemonicParsing="false" text="Use proxy">-->
+<!--         <font>-->
+<!--            <Font name="Fira Sans Heavy Italic" size="18.0" />-->
+<!--         </font>-->
+<!--      </CheckBox>-->
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

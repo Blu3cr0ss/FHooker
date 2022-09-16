@@ -17,7 +17,7 @@ object FieldChangedEvent {
     val spamWithGitButton = get("spamWithGitButton") as CheckBox
     val spamTextField = get("spamTextField") as TextArea
     val spamWithDiscordButton = get("spamWithDiscordButton") as CheckBox
-    val proxyButton = get("useProxyButton") as CheckBox
+//    val proxyButton = get("useProxyButton") as CheckBox
 
     @JvmStatic
     fun start() {
@@ -28,9 +28,9 @@ object FieldChangedEvent {
         spamWithGitButton.selectedProperty().addListener { _, _, newVal ->
             Globals.useGitLink = newVal
         }
-        proxyButton.selectedProperty().addListener { _, _, newVal ->
-            Globals.useProxy = newVal
-        }
+//        proxyButton.selectedProperty().addListener { _, _, newVal ->
+//            Globals.useProxy = newVal
+//        }
     }
 
     fun disableFields(x: Boolean) {
@@ -39,7 +39,7 @@ object FieldChangedEvent {
         spamWithGitButton.isDisable = x
         spamTextField.isDisable = x
         spamWithDiscordButton.isDisable = x
-        proxyButton.isDisable = x
+//        proxyButton.isDisable = x
     }
 
     val github = "https://github.com/Bluecross-anarchy/FHooker"
