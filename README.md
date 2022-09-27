@@ -8,3 +8,5 @@ for educational purposes only!... <br>
 
 # Bluecross on top
 # BBra Inc. on top
+
+Any ideas here: https://discord.gg/4gUy5CSdkF
