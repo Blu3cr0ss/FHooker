@@ -17,13 +17,13 @@
             <Font name="Fira Sans Heavy Italic" size="29.0" />
          </font>
       </Text>
-      <TextField fx:id="hookField" layoutX="75.0" layoutY="237.0" prefHeight="24.0" prefWidth="250.0" promptText="Paste it here" />
+      <TextField fx:id="hookField" layoutX="75.0" layoutY="237.0" prefHeight="24.0" prefWidth="531.0" promptText="Paste it here" />
       <Button fx:id="submitAttackButton" layoutX="845.0" layoutY="184.0" mnemonicParsing="false" prefHeight="460.0" prefWidth="382.0" text="Attack">
          <font>
             <Font name="Fira Sans Heavy" size="33.0" />
          </font>
       </Button>
-      <CheckBox fx:id="spamWithGitButton" layoutX="396.0" layoutY="380.0" mnemonicParsing="false" selected="true" text="Spam with github link">
+      <CheckBox fx:id="spamWithGitButton" layoutX="397.0" layoutY="380.0" mnemonicParsing="false" selected="true" text="Spam with github link">
          <font>
             <Font name="Fira Sans Heavy Italic" size="18.0" />
          </font>
@@ -44,17 +44,20 @@
       <Text layoutX="1056.0" layoutY="710.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Made with love by Bluecross &lt;3" />
       <Text fx:id="delayIndicator" layoutX="326.0" layoutY="397.0" strokeType="OUTSIDE" strokeWidth="0.0" text="1000" />
       <Text fx:id="isRunningText" layoutX="848.0" layoutY="162.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="375.7294921875" />
-      <CheckBox fx:id="spamWithDiscordButton" layoutX="383.0" layoutY="348.0" mnemonicParsing="false" selected="true" text="Spam with discord link">
+      <CheckBox fx:id="spamWithDiscordButton" layoutX="388.0" layoutY="348.0" mnemonicParsing="false" selected="true" text="Spam with discord link">
          <font>
             <Font name="Fira Sans Heavy Italic" size="18.0" />
          </font>
       </CheckBox>
       <Text fx:id="errorText" fill="RED" layoutX="845.0" layoutY="161.0" strokeType="OUTSIDE" strokeWidth="0.0" style="visibility: false;" text="Fhooker just got some error :(" wrappingWidth="382.0" />
-<!--      <CheckBox fx:id="useProxyButton" layoutX="75.0" layoutY="287.0" mnemonicParsing="false" text="Use proxy">-->
-<!--         <font>-->
-<!--            <Font name="Fira Sans Heavy Italic" size="18.0" />-->
-<!--         </font>-->
-<!--      </CheckBox>-->
+      <CheckBox fx:id="useProxyButton" layoutX="75.0" layoutY="287.0" mnemonicParsing="false" text="Use proxy -&gt;">
+         <font>
+            <Font name="Fira Sans Heavy Italic" size="18.0" />
+         </font>
+      </CheckBox>
+      <Text fx:id="invalidHookError" fill="RED" layoutX="502.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid webhook" visible="false" wrappingWidth="105.89794921875" />
+      <TextField fx:id="proxyIp" disable="true" layoutX="232.0" layoutY="287.0" prefHeight="24.0" prefWidth="376.0" />
+      <Text fx:id="invalidProxyError" fill="RED" layoutX="522.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid proxy" visible="false" wrappingWidth="85.34200286865234" />
    </children>
    <padding>
       <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

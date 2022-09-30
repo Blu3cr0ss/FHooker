@@ -14,11 +14,7 @@ import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.net.*;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static idk.bluecross.fhooker.Globals.speedIsRestricted;
@@ -122,7 +118,6 @@ public class DiscordApi {
 
                 if (author != null) {
                     JSONObject jsonAuthor = new JSONObject();
-
                     jsonAuthor.put("name", author.getName());
                     jsonAuthor.put("url", author.getUrl());
                     jsonAuthor.put("icon_url", author.getIconUrl());
@@ -146,46 +141,42 @@ public class DiscordApi {
 
             json.put("embeds", embedObjects.toArray());
         }
-
-        URL url = new URL(this.url);
-
-        HttpURLConnection connection;
-
-        if (Globals.useProxy) {
-            connection = (HttpURLConnection) url.openConnection();
-        } else {
-            connection = (HttpURLConnection) url.openConnection();
-        }
-
-        connection.addRequestProperty("Content-Type", "application/json");
-//        connection.addRequestProperty("User-Agent", "BBra-inc-on-top");
-        connection.setDoOutput(true);
-        connection.setRequestMethod("POST");
-
-        OutputStream stream = connection.getOutputStream();
-        stream.write(json.toString().getBytes());
-        stream.flush();
-        stream.close();
-        if (allOk >= 2) {
-            antistuck = 0;
-        }
-        try {
-            connection.getInputStream().close();
-            connection.disconnect();
-            allOk++;
-            if (allOk >= 3) {
-                speedIsRestricted = false;
-            }
-        } catch (Exception e) {
-            antistuck++;
-            if (antistuck == 3 && !speedIsRestricted) {
-                speedIsRestricted = true;
+        try{
+            URL url = new URL(this.url);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection(ProxyUtilKt.getProxy());
+            connection.setConnectTimeout(5000);
+            connection.addRequestProperty("Content-Type", "application/json");
+            connection.addRequestProperty("User-Agent", "BBra-inc-on-top");
+            connection.setDoOutput(true);
+            connection.setRequestMethod("POST");
+            OutputStream stream = connection.getOutputStream();
+            stream.write(json.toString().getBytes());
+            stream.flush();
+            stream.close();
+            if (allOk >= 2) {
                 antistuck = 0;
             }
-            allOk = 0;
-            e.printStackTrace();
+            try {
+                connection.getInputStream().close();
+                connection.disconnect();
+                allOk++;
+                if (allOk >= 3) {
+                    speedIsRestricted = false;
+                }
+            } catch (Exception e) {
+                antistuck++;
+                if (antistuck == 3 && !speedIsRestricted) {
+                    speedIsRestricted = true;
+                    antistuck = 0;
+                }
+                allOk = 0;
+                e.printStackTrace();
+            }
+        }catch (Exception e){
+            if (Objects.equals(e.getMessage(), "connect timed out")){
+                DocumentKt.showError(true,"connect timed out (maybe proxy is dead?)");
+            }
         }
-        LoggerKt.log(json.toString());
     }
 
     private int antistuck = 0;

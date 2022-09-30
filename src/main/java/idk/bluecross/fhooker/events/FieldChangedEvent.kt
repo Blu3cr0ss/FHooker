@@ -1,13 +1,16 @@
 package idk.bluecross.fhooker.events
 
 import idk.bluecross.fhooker.Globals
+import idk.bluecross.fhooker.util.errorProxy
 import idk.bluecross.fhooker.util.get
 import idk.bluecross.fhooker.util.log
+import idk.bluecross.fhooker.util.resetProxy
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Slider
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.text.Text
+import java.util.regex.Pattern
 import kotlin.math.ceil
 
 object FieldChangedEvent {
@@ -17,7 +20,11 @@ object FieldChangedEvent {
     val spamWithGitButton = get("spamWithGitButton") as CheckBox
     val spamTextField = get("spamTextField") as TextArea
     val spamWithDiscordButton = get("spamWithDiscordButton") as CheckBox
-//    val proxyButton = get("useProxyButton") as CheckBox
+    val proxyButton = get("useProxyButton") as CheckBox
+    val invalidHookError = get("invalidHookError") as Text
+    val proxyField = get("proxyIp") as TextField
+
+    val hookValidatorRegex = Regex("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
 
     @JvmStatic
     fun start() {
@@ -28,32 +35,18 @@ object FieldChangedEvent {
         spamWithGitButton.selectedProperty().addListener { _, _, newVal ->
             Globals.useGitLink = newVal
         }
-//        proxyButton.selectedProperty().addListener { _, _, newVal ->
-//            Globals.useProxy = newVal
-//        }
-    }
-
-    fun disableFields(x: Boolean) {
-        delaySlider.isDisable = x
-        hookField.isDisable = x
-        spamWithGitButton.isDisable = x
-        spamTextField.isDisable = x
-        spamWithDiscordButton.isDisable = x
-//        proxyButton.isDisable = x
-    }
-
-    val github = "https://github.com/Bluecross-anarchy/FHooker"
-    val discord = "https://discord.gg/frzjeHxKeX"
-    fun setText() {
-        var result = ""
-        if (spamWithDiscordButton.isSelected) {
-            result += discord + "\n------------------------------------------------------------------------------\n"
+        proxyButton.selectedProperty().addListener { _, _, newVal ->
+            Globals.useProxy = newVal
+            proxyField.isDisable = !newVal
+            errorProxy.isVisible = newVal
+            resetProxy()
         }
-        result += spamTextField.text
-        if (spamWithGitButton.isSelected) {
-            result += "\n------------------------------------------------------------------------------\n" + github
+        hookField.textProperty().addListener { _, _, newVal ->
+            invalidHookError.isVisible = !newVal.matches(hookValidatorRegex) && newVal.isNotEmpty()
         }
-        result = result.replace("\n", "\\n")
-        Globals.spamText = result
+        proxyField.textProperty().addListener { _, _, newVal ->
+            Globals.proxy = newVal
+            resetProxy()
+        }
     }
 }

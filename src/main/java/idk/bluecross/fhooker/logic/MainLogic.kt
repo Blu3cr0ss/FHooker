@@ -27,24 +27,28 @@ fun startAttack() {
                     .setColor(Color.RED)
             )
             discord.setContent(text)
-
+            var i = 0
             while (timerThr != null && Globals.attackingRn && !timerThr!!.isInterrupted && timerThr!!.isAlive) {
-                if (Globals.speedIsRestricted){
+                i++
+                if (Globals.speedIsRestricted) {
                     showError(true, "Discord restricted our spam messages :( Wait...")
-                }else(showError(false,""))
+                } else (showError(false, ""))
                 discord.execute()
-                log("tried to send at ${Globals.webhook}")
+                log("tried to send at ${Globals.webhook} $i times")
                 Thread.sleep(Globals.spamDelay.toLong())
             }
         } catch (e: Exception) {
-            e.printStackTrace()
+            if (e.message.toString().equals("sleep interrupted")) {
+                // do nothing lel
+            } else {
+                e.printStackTrace()
+            }
         }
     }
 }
 
 fun stopAttack() {
     Globals.attackingRn = false;
-
     timerThr?.interrupt()
     timerThr = null
 }
