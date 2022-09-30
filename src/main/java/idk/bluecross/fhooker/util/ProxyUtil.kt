@@ -6,9 +6,8 @@ import javafx.scene.text.Text
 import java.io.File
 import java.net.InetSocketAddress
 import java.net.Proxy
-import java.net.SocketAddress
 
-private var currentProxy = 0;
+private var currentProxy = 0
 private var thisProxyUsedTimes = 0
 
 private var proxy: Proxy? = Proxy.NO_PROXY

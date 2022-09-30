@@ -3,14 +3,12 @@ package idk.bluecross.fhooker.events
 import idk.bluecross.fhooker.Globals
 import idk.bluecross.fhooker.util.errorProxy
 import idk.bluecross.fhooker.util.get
-import idk.bluecross.fhooker.util.log
 import idk.bluecross.fhooker.util.resetProxy
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Slider
 import javafx.scene.control.TextArea
 import javafx.scene.control.TextField
 import javafx.scene.text.Text
-import java.util.regex.Pattern
 import kotlin.math.ceil
 
 object FieldChangedEvent {

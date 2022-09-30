@@ -2,7 +2,7 @@ package idk.bluecross.fhooker;
 
 import idk.bluecross.fhooker.events.FieldChangedEvent;
 import idk.bluecross.fhooker.events.SubmitAttackEvent;
-import idk.bluecross.fhooker.logic.MainLogicKt;
+import idk.bluecross.fhooker.util.LoggerKt;
 import idk.bluecross.fhooker.util.ProxyUtilKt;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -26,7 +26,8 @@ public class FHooker extends Application {
         starter();
     }
 
-    private void starter(){
+    private void starter() {
+        LoggerKt.log("Here i am!");
         FieldChangedEvent.start();
         SubmitAttackEvent.start();
         ProxyUtilKt.startProxyService();
