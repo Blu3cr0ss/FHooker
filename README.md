@@ -1,5 +1,6 @@
 # FHooker
 Webhook nuker for Discord
+Uses java 11
 # Showcase
 Client ui: <br>
 ![Screenshot](Preview.png)<br>
