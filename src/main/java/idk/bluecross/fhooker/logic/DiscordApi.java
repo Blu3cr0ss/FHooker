@@ -1,9 +1,11 @@
 package idk.bluecross.fhooker.logic;
 
 import idk.bluecross.fhooker.util.DocumentKt;
+import idk.bluecross.fhooker.util.LoggerKt;
 import idk.bluecross.fhooker.util.ProxyUtilKt;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.Array;
@@ -26,6 +28,10 @@ public class DiscordApi {
 
     public DiscordApi(String url) {
         this.url = url;
+    }
+
+    public String getWebhook() {
+        return url;
     }
 
     public void setContent(String content) {
@@ -136,7 +142,7 @@ public class DiscordApi {
 
             json.put("embeds", embedObjects.toArray());
         }
-        try{
+        try {
             URL url = new URL(this.url);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection(ProxyUtilKt.getProxy());
             connection.setConnectTimeout(5000);
@@ -158,6 +164,8 @@ public class DiscordApi {
                 if (allOk >= 3) {
                     speedIsRestricted = false;
                 }
+            } catch (FileNotFoundException e) {
+                LoggerKt.log("bad link: " + getWebhook());
             } catch (Exception e) {
                 antistuck++;
                 if (antistuck == 3 && !speedIsRestricted) {
@@ -167,9 +175,9 @@ public class DiscordApi {
                 allOk = 0;
                 e.printStackTrace();
             }
-        }catch (Exception e){
-            if (Objects.equals(e.getMessage(), "connect timed out")){
-                DocumentKt.showError(true,"connect timed out (maybe proxy is dead?)");
+        } catch (Exception e) {
+            if (Objects.equals(e.getMessage(), "connect timed out")) {
+                DocumentKt.showError(true, "connect timed out (maybe proxy is dead?)");
             }
         }
     }

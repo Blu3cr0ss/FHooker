@@ -19,7 +19,8 @@ object SubmitAttackEvent {
         submitButton.setOnAction {
             attackingRn = !attackingRn
             if (attackingRn) {
-                Globals.webhook = FieldChangedEvent.hookField.text
+//                Globals.webhook = FieldChangedEvent.hookField.
+                parseHooksToArray()
                 setText()
                 startAttack()
                 submitButton.text = "Stop attack"
@@ -33,6 +34,11 @@ object SubmitAttackEvent {
                 showError(false, "")
             }
         }
+    }
+
+    fun parseHooksToArray() {
+        Globals.webhooks.clear()
+        Globals.webhooks.addAll(FieldChangedEvent.hookField.text.replace("\\s", "").split(";").distinct())
     }
 
     fun disableFields(x: Boolean) {

@@ -3,6 +3,7 @@ package idk.bluecross.fhooker.events
 import idk.bluecross.fhooker.Globals
 import idk.bluecross.fhooker.util.errorProxy
 import idk.bluecross.fhooker.util.get
+import idk.bluecross.fhooker.util.log
 import idk.bluecross.fhooker.util.resetProxy
 import javafx.scene.control.CheckBox
 import javafx.scene.control.Slider
@@ -21,8 +22,9 @@ object FieldChangedEvent {
     val proxyButton = get("useProxyButton") as CheckBox
     val invalidHookError = get("invalidHookError") as Text
     val proxyField = get("proxyIp") as TextField
+    var validHook = false
 
-    val hookValidatorRegex = Regex("^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]")
+    val hookValidatorRegex = Regex("^(https://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|])*")
 
     @JvmStatic
     fun start() {
@@ -40,7 +42,11 @@ object FieldChangedEvent {
             resetProxy()
         }
         hookField.textProperty().addListener { _, _, newVal ->
-            invalidHookError.isVisible = !newVal.matches(hookValidatorRegex) && newVal.isNotEmpty()
+            invalidHookError.isVisible = !newVal.replace("\\s", "").matches(hookValidatorRegex) && newVal.isNotEmpty() && !newVal.equals("bebra")
+            validHook = !(!newVal.replace("\\s", "").matches(hookValidatorRegex)
+                    || newVal.replace("\\s","").isBlank())
+            SubmitAttackEvent.submitButton.isDisable = !validHook
+
         }
         proxyField.textProperty().addListener { _, _, newVal ->
             Globals.proxy = newVal

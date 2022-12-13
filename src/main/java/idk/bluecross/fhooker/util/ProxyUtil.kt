@@ -1,6 +1,7 @@
 package idk.bluecross.fhooker.util
 
 import idk.bluecross.fhooker.Globals
+import idk.bluecross.fhooker.events.FieldChangedEvent
 import idk.bluecross.fhooker.events.SubmitAttackEvent.submitButton
 import javafx.scene.text.Text
 import java.io.File
@@ -33,7 +34,9 @@ fun resetProxy() {
                     )))
                 ) {
                     errorProxy.isVisible = false
-                    submitButton.isDisable = false
+                    if (FieldChangedEvent.validHook) {
+                        submitButton.isDisable = false
+                    }
                     if (Globals.proxy.startsWith("HTTP ")) {
                         proxy = Proxy(
                             Proxy.Type.HTTP,
@@ -59,7 +62,9 @@ fun resetProxy() {
         } else {
             proxy = Proxy.NO_PROXY
             errorProxy.isVisible = false
-            submitButton.isDisable = false
+            if (FieldChangedEvent.validHook) {
+                submitButton.isDisable = false
+            }
         }
     } catch (e: Exception) {
         showError(true, "Proxy error")

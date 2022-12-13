@@ -3,19 +3,17 @@ package idk.bluecross.fhooker.logic
 import idk.bluecross.fhooker.Globals
 import idk.bluecross.fhooker.util.log
 import idk.bluecross.fhooker.util.showError
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.launch
 import java.awt.Color
+import java.io.FileNotFoundException
 import kotlin.concurrent.thread
 
-var timerThr: Thread? = null // don't understand kotlin coroutines so I'll use threads
-
-
-fun startAttack() {
-    Globals.attackingRn = true
-    val discord = DiscordApi(Globals.webhook)
-
-    timerThr = thread(start = true) {
+var stopping = false
+fun run(discord: DiscordApi) {
+    GlobalScope.launch {
         try {
-            val discord = discord
             val text = Globals.spamText
             var stuckIndicator = 0
             discord.clearEmbeds()
@@ -27,27 +25,31 @@ fun startAttack() {
             )
             discord.setContent(text)
             var i = 0
-            while (timerThr != null && Globals.attackingRn && !timerThr!!.isInterrupted && timerThr!!.isAlive) {
+            while (!stopping) {
                 i++
                 if (Globals.speedIsRestricted) {
-                    showError(true, "Discord restricted our spam messages :( Wait...")
+                    showError(true, "Discord restricted speedof our spam messages :(")
                 } else (showError(false, ""))
                 discord.execute()
-                log("tried to send at ${Globals.webhook} $i times")
-                Thread.sleep(Globals.spamDelay.toLong())
+                log("tried to send at ${discord.webhook} $i times")
+                delay(Globals.spamDelay.toLong())
             }
-        } catch (e: Exception) {
-            if (e.message.toString().equals("sleep interrupted")) {
-                // do nothing lel
-            } else {
-                e.printStackTrace()
-            }
+        }catch (e: Exception) {
+            e.printStackTrace()
         }
+    }
+}
+
+fun startAttack() {
+    Globals.attackingRn = true
+    stopping = false
+    Globals.webhooks.forEach {
+        run(DiscordApi(it))
+        println("running coroutine for $it")
     }
 }
 
 fun stopAttack() {
     Globals.attackingRn = false
-    timerThr?.interrupt()
-    timerThr = null
+    stopping = true
 }

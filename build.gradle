@@ -1,6 +1,6 @@
 plugins {
     id 'java'
-    id "org.jetbrains.kotlin.jvm" version "1.6.10"
+    id "org.jetbrains.kotlin.jvm" version "1.7.21"
     id 'application'
     id 'org.openjfx.javafxplugin' version '0.0.13'
     id 'org.beryx.jlink' version '2.25.0'
@@ -8,14 +8,10 @@ plugins {
 }
 
 group 'idk.bluecross'
-version '1.1'
+version '1.2'
 
 repositories {
     mavenCentral()
-    maven {
-        url "https://repo1.maven.org/maven2/"
-    }
-    jcenter()
 }
 
 ext {
@@ -24,10 +20,6 @@ ext {
 
 sourceCompatibility = '11'
 targetCompatibility = '11'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-}
 
 application {
     mainClass = 'idk.bluecross.fhooker.ShitcodeMoment'
@@ -39,14 +31,9 @@ javafx {
 }
 
 dependencies {
-    implementation 'org.openjfx:javafx:11'
-}
-
-
-tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
-    kotlinOptions {
-        jvmTarget = "11"
-    }
+    shadow 'org.openjfx:javafx:11'
+    shadow "org.jetbrains.kotlinx:kotlinx-coroutines-core:1.6.4"
+    implementation configurations.shadow
 }
 
 shadowJar {         // can someone explain me how to work with this shit?
@@ -55,6 +42,7 @@ shadowJar {         // can someone explain me how to work with this shit?
                 'Main-Class': 'idk.bluecross.fhooker.ShitcodeMoment'
         )
     }
+//    configurations = [project.configurations.shadow]  javafx dont want to be included in shadow jar lol but idc so jar is about 40 mb
     exclude 'dummyThing'    // wtf
-    classifier = 'release'
+    classifier = 'full'
 }
