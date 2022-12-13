@@ -10,7 +10,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<Pane cache="true" depthTest="DISABLE" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" scaleShape="false" xmlns="http://javafx.com/javafx/11" xmlns:fx="http://javafx.com/fxml/1">
+<Pane cache="true" depthTest="DISABLE" focusTraversable="true" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="720.0" prefWidth="1280.0" scaleShape="false" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1">
     <children>
         <Text boundsType="VISUAL" layoutX="-426.0" layoutY="96.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Gimme ur webhook" textOrigin="CENTER" x="500.0" y="100.0">
             <font>
@@ -58,11 +58,13 @@
         <Text fx:id="invalidHookError" fill="RED" layoutX="502.0" layoutY="234.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid webhook" visible="false" wrappingWidth="105.89794921875" />
         <TextField fx:id="proxyIp" disable="true" layoutX="232.0" layoutY="287.0" prefHeight="24.0" prefWidth="376.0" promptText="HTTP/SOCKS ip:port" />
         <Text fx:id="invalidProxyError" fill="RED" layoutX="522.0" layoutY="284.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Invalid proxy" visible="false" wrappingWidth="85.34200286865234" />
-      <Button fx:id="deleteHook" layoutX="845.0" layoutY="540.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="382.0" text="Delete webhook">
+      <Button fx:id="deleteHook" layoutX="845.0" layoutY="540.0" mnemonicParsing="false" prefHeight="103.0" prefWidth="382.0" text="Delete">
          <font>
             <Font size="28.0" />
          </font>
       </Button>
+      <Button fx:id="testHook" layoutX="616.0" layoutY="237.0" mnemonicParsing="false" text="Check" />
+      <Text fx:id="testResult" layoutX="679.0" layoutY="255.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Checking hook..." visible="false" wrappingWidth="154.47999954223633" />
     </children>
     <padding>
         <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

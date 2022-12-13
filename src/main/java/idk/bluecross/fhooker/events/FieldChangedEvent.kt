@@ -42,15 +42,21 @@ object FieldChangedEvent {
             resetProxy()
         }
         hookField.textProperty().addListener { _, _, newVal ->
-            invalidHookError.isVisible = !newVal.replace("\\s", "").matches(hookValidatorRegex) && newVal.isNotEmpty() && !newVal.equals("bebra")
-            validHook = !(!newVal.replace("\\s", "").matches(hookValidatorRegex)
-                    || newVal.replace("\\s","").isBlank())
-            SubmitAttackEvent.submitButton.isDisable = !validHook
-            SubmitAttackEvent.deleteButton.isDisable = !validHook
+            checkHook(newVal)
         }
         proxyField.textProperty().addListener { _, _, newVal ->
             Globals.proxy = newVal
             resetProxy()
         }
+    }
+
+    fun checkHook(newVal: String) {
+        invalidHookError.isVisible =
+            !newVal.replace("\\s", "").matches(hookValidatorRegex) && newVal.isNotEmpty() && !newVal.equals("bebra")
+        validHook = !(!newVal.replace("\\s", "").matches(hookValidatorRegex)
+                || newVal.replace("\\s", "").isBlank())
+        log(validHook.toString())
+        SubmitAttackEvent.submitButton.isDisable = !validHook
+        SubmitAttackEvent.deleteButton.isDisable = !validHook
     }
 }
