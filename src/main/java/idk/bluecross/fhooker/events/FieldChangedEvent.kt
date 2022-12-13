@@ -46,7 +46,7 @@ object FieldChangedEvent {
             validHook = !(!newVal.replace("\\s", "").matches(hookValidatorRegex)
                     || newVal.replace("\\s","").isBlank())
             SubmitAttackEvent.submitButton.isDisable = !validHook
-
+            SubmitAttackEvent.deleteButton.isDisable = !validHook
         }
         proxyField.textProperty().addListener { _, _, newVal ->
             Globals.proxy = newVal

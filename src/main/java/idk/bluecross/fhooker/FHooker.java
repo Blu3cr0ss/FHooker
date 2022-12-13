@@ -20,7 +20,6 @@ public class FHooker extends Application {
         stage.setTitle("FHooker by Bluecross");
         stage.getIcons().add(new Image("bbra.png"));
         stage.setScene(scene);
-//        stage.setResizable(false);
         stage.show();
         Globals.scene = scene;
         starter();
@@ -32,6 +31,7 @@ public class FHooker extends Application {
         SubmitAttackEvent.start();
         ProxyUtilKt.startProxyService();
         SubmitAttackEvent.INSTANCE.getSubmitButton().setDisable(true);
+        SubmitAttackEvent.INSTANCE.getDeleteButton().setDisable(true);
     }
 
     public static void main(String[] args) {
